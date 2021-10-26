@@ -59,6 +59,50 @@ contract('TokenFarm', ([owner, investor]) => {
             result = await daiToken.balanceOf(investor)
             assert.equal(result.toString(), tokens('1000000'), 'Investor mock dai balance not correct')
 
+            //Stake Mock DAI Tokens
+            await daiToken.approve(tokenFarm.address, tokens('1000000'), { from: investor })
+            await tokenFarm.stakeTokens(tokens('1000000'), { from: investor })
+
+            //Check staking result
+            result = await daiToken.balanceOf(investor)
+            assert.equal(result.toString(), tokens('0'), 'investor mock dai balance is correct after staking')
+
+            result = await daiToken.balanceOf(tokenFarm.address)
+            assert.equal(result.toString(), tokens('1000000'), 'Token farm mock dai balance is correct after staking')
+            
+
+            // check is saking status
+            result = await tokenFarm.isStaking(investor)
+            assert.equal(result.toString(), 'true', 'investor staking status is correct after staking')
+
+            //isues token
+            await tokenFarm.issueTokens({ from: owner })
+
+            //ensure balance is correct
+            result = await dappToken.balanceOf(investor)
+            assert.equal(result.toString(), tokens('1000000'), 'investor DApp Token wallet balance')
+
+
+            //ensure only owner can issue tokens
+            await tokenFarm.issueTokens({ from: investor }).should.be.rejected;
+
+            await tokenFarm.unstakeTokens({ from: investor })
+            //results after unstake
+            result = await daiToken.balanceOf(investor)
+            assert.equal(result.toString(), tokens('1000000'), 'investor mock dai wallet balance is correct')
+
+            result = await daiToken.balanceOf(tokenFarm.address)
+            assert.equal(result.toString(), tokens('0'), 'investor mock dai wallet balance is correct')
+
+            result = await tokenFarm.stakingBalance(investor)
+            assert.equal(result.toString(), tokens('0'), 'investor mock dai wallet balance is correct')
+
+            result = await tokenFarm.isStaking(investor)
+            assert.equal(result.toString(), 'false', 'investor staking status is correct')
+
+
+
+
         })
     })
 })
