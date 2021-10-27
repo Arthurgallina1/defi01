@@ -6,12 +6,14 @@ require('chai').use(require('chai-as-promised'))
 .should()
 
 contract('Color', (accounts) => {
-    describe('Deployment', () => {
-        let contract
-        before(async () => {
-            contract = await Color.deployed()
+    let contract
+    before(async () => {
+        contract = await Color.deployed()
 
-        })
+    })
+
+    describe('Deployment', () => {
+        
         it('It deploys succesfully', async () => {
             const address = contract.address
             assert.notEqual(address, '')
@@ -27,4 +29,21 @@ contract('Color', (accounts) => {
             assert.equal(symbol, 'COLOR')
         })
     })
+
+    describe('minting', async () => {
+
+        it('creates a new token', async () => {
+            const result = await contract.mint('#EC058E')
+            const totalSupply = await contract.totalSupply();
+
+            assert.equal(totalSupply, 1)
+            // console.log(result)
+            const event = result.logs[0].args
+            assert.equal(event.tokenId.toNumber(), 1, 'id is correct')
+            assert.equal(event.from, '0x0000000000000000000000000000000000000000', 'from is correct')
+            assert.equal(event.to, accounts[0], 'to is correct')
+
+        })
+    })
+    
 })
