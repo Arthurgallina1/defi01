@@ -44,7 +44,7 @@ export default function App() {
       const gas = await web3.eth.getBalance(accounts[0])
       console.debug('gasss', gas)
       let daiTokenBalance = await daiToken.methods.balanceOf(accounts[0]).call()
-      // console.log('daiTokenBalance', daiTokenBalance)
+      console.log('daiTokenBalance', daiTokenBalance)
       // setAccountInfo({ ...accountInfo, daiTokenBalance: daiTokenBalance.toString() })
     } else {
       alert('dai token contract not deployed on this network')
