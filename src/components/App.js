@@ -30,10 +30,6 @@ export default function App() {
   const [colors, setColors] = useState([])
   const ref = useRef()
 
-  useEffect(() => {
-    console.log(account)
-  }, [account])
-
   const loadBlockchain = async () => {
     const web3 = window.web3
     const accounts = await web3.eth.getAccounts()
@@ -46,16 +42,18 @@ export default function App() {
     if (networkData) {
       const abi = Lottery.abi
       const address = networkData.address
-      const contract = new web3.eth.Contract(abi, address)
+      const contract = new web3.eth.Contract(abi, '0x8B07481F448ED87C6f8297ceEb7EEd3bd64f1b9b')
+      setContract(contract)
       try {
-        const balance = await contract.methods.pickWinner().call()
+        const balance = await contract.methods.getBalance().call()
+        // const balance = await contract.methods
+        //   .deposit()
+        //   .send({ from: accounts[0] })
         console.log('balance', balance)
-
-      } catch(err) {
-        alert('err')
+      } catch (err) {
+        console.debug('error', err.message)
       }
 
-      setContract(contract)
       // const totalSupply = await contract.methods.totalSupply().call()
 
       // //load colors
@@ -92,6 +90,16 @@ export default function App() {
   //     setColors(colores)
   //   } else alert('SC not deployed')
   // }
+
+  const getBalance = async () => {
+    console.log(contract, account)
+    try {
+      const balance = await contract.methods.getBalance().call()
+      console.log('balance', balance)
+    } catch (err) {
+      console.debug('error', err.message)
+    }
+  }
 
   const mint = (color) => {
     console.debug('account!!', account)
@@ -145,7 +153,7 @@ export default function App() {
   return (
     <div>
       {/* <ColorPicker /> */}
-      <LotteryApp account={account} />
+      <LotteryApp account={account} getBalance={getBalance} />
     </div>
   )
 }

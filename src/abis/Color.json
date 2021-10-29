@@ -2143,12 +2143,13 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0x24fdF5D3602aEE8c288408f4703f71caa7358ab8",
-      "transactionHash": "0x5a9fb252eb816ce65fcb0b6dbe57773263b2232ce6388efeeace977a9bd406b8"
+      "address": "0x7Af635400ed5452d90fb3538058ac1Da83d564E2",
+      "transactionHash": "0xd43ecbb9a3b0c6a4fa5eb8e39baaf2523118b56a83f0ead3051cefb33d243b7e"
     }
   },
   "schemaVersion": "3.4.3",
-  "updatedAt": "2021-10-29T02:51:29.154Z",
+  "updatedAt": "2021-10-29T03:16:42.854Z",
+  "networkType": "ethereum",
   "devdoc": {
     "methods": {
       "approve(address,uint256)": {

@@ -5,6 +5,7 @@ pragma solidity >=0.5.0;
 contract Lottery {
     address payable[] public players; //accessed by anyone
     address public manager;
+    uint256[] public lol;
 
     constructor() public {
         manager = msg.sender;
@@ -12,8 +13,12 @@ contract Lottery {
 
     // receive() external payable {
     //     require(msg.value > 0.1 ether, "value not right");
-    //     players.push(payable(msg.sender)); //needs to convert before pushing to payable array
+    // players.push(payable(msg.sender)); //needs to convert before pushing to payable array
     // }
+
+    function deposit() public payable {
+        lol.push(1);
+    }
 
     function getBalance() public view returns (uint256) {
         require(msg.sender == manager, "No permission");

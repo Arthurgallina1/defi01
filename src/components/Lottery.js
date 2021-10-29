@@ -1,8 +1,8 @@
 import React from 'react'
 
-export default function Lottery({ account }) {
+export default function Lottery({ account, getBalance }) {
     return (
-        <div>
+        <div className="mt-5">
             <nav className="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
       <a
         className="navbar-brand col-sm-3 col-md-2 mr-0"
@@ -18,6 +18,10 @@ export default function Lottery({ account }) {
         </li>
       </ul>
     </nav>
+    <div>
+        <button onClick={getBalance}>Get balance</button>
+    </div>
         </div>
+        
     )
 }
