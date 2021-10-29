@@ -33,7 +33,7 @@ export default function App() {
   const loadBlockchain = async () => {
     const web3 = window.web3
     const accounts = await web3.eth.getAccounts()
-    setAccount(accounts[0])
+    setAccount('0x742e0c32628cc418E23E6E71927FaDfdd9e5c518')
     // console.log(accounts[0])
     const networkId = await web3.eth.net.getId() //to find correct address of contract
     const networkData = Lottery.networks[networkId]
@@ -43,13 +43,17 @@ export default function App() {
       const abi = Lottery.abi
       const address = networkData.address
       const contract = new web3.eth.Contract(abi, '0x8B07481F448ED87C6f8297ceEb7EEd3bd64f1b9b')
+      console.log('contract', contract)
       setContract(contract)
       try {
         const balance = await contract.methods.getBalance().call()
+        // const picker = await contract.methods.players(1)
+        const picker = await contract.methods.manager().call()
+
         // const balance = await contract.methods
         //   .deposit()
         //   .send({ from: accounts[0] })
-        console.log('balance', balance)
+        console.log('balance', picker)
       } catch (err) {
         console.debug('error', err.message)
       }
@@ -92,7 +96,6 @@ export default function App() {
   // }
 
   const getBalance = async () => {
-    console.log(contract, account)
     try {
       const balance = await contract.methods.getBalance().call()
       console.log('balance', balance)
@@ -102,7 +105,6 @@ export default function App() {
   }
 
   const mint = (color) => {
-    console.debug('account!!', account)
     console.debug('color!!', color)
     try {
       contract.methods
